@@ -25,6 +25,12 @@ public:
     double mean_value() const;
     double std_value() const;
 
+    // Overloading Operators as Friends
+    friend std::ostream& operator<<(std::ostream& os, const DataProcessor& other);
+    DataProcessor operator+(const DataProcessor& other) const;
+    double& operator[](const unsigned int index);
+
+
 private:
     double* data; // Pointer to hold data
     int size; // Size of the data

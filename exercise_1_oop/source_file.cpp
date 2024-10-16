@@ -80,3 +80,34 @@ double DataProcessor::std_value() const {
     }
     return std::sqrt(sum_diff / size); // Return standard deviation
 }
+
+// << Overloading
+std::ostream& operator<<(std::ostream& os, const DataProcessor& other) {
+    for(int i = 0; i<other.size; ++i){
+        if (i==other.size-1){
+            os << other.data[i];
+        }
+        else{
+            os << other.data[i] << ", ";
+        }
+    };
+    return os;
+}
+
+// [] Overloading
+double& DataProcessor::operator[](const unsigned int index) {
+    return data[index];
+}
+
+// + Overloading
+DataProcessor DataProcessor::operator+(const DataProcessor& other) const {
+    if (this->size != other.size) {
+        throw std::invalid_argument("Arrays must be of the same size");
+    }
+
+    DataProcessor result(new double[this->size], this->size); // Dynamically allocate
+    for (int i = 0; i < this->size; ++i) {
+        result[i] = this->data[i] + other.data[i];
+    }
+    return result; // Return by value
+}
