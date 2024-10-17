@@ -1,11 +1,14 @@
 #include "header_file.hpp"
 
+int DataProcessor::n_instances = 0;
+
 // Constructor
 DataProcessor::DataProcessor(double* data, int size) : size(size) {
     this->data = new double[size]; // Dynamically allocate memory
     for (int i = 0; i < size; ++i) {
         this->data[i] = data[i];    
     }
+    n_instances += 1;
 }
 
 // Copy constructor
@@ -14,6 +17,7 @@ DataProcessor::DataProcessor(const DataProcessor& other) : size(other.size) {
     for (int i = 0; i < size; ++i) {
         data[i] = other.data[i]; // Copy elements
     }
+    n_instances += 1;
 }
 
 // Copy assignment operator
@@ -27,6 +31,7 @@ DataProcessor& DataProcessor::operator=(const DataProcessor& other) {
             data[i] = other.data[i]; // Manually copy each element
         }
     }
+    n_instances += 1;
     return *this; // Return *this to allow chained assignments
 }
 
@@ -95,7 +100,7 @@ std::ostream& operator<<(std::ostream& os, const DataProcessor& other) {
 }
 
 // [] Overloading
-double& DataProcessor::operator[](const unsigned int index) {
+double& DataProcessor::operator[](const unsigned int index) const{
     return data[index];
 }
 
@@ -110,4 +115,9 @@ DataProcessor DataProcessor::operator+(const DataProcessor& other) const {
         result[i] = this->data[i] + other.data[i];
     }
     return result; // Return by value
+}
+
+// Static get_n_instances() function
+int DataProcessor::get_n_instances(){
+    return n_instances;
 }
